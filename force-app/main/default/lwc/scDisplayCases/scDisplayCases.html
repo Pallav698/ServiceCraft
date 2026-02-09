@@ -1,0 +1,73 @@
+<template>
+  <template if:true={isLoading}>
+    <lightning-spinner
+      alternative-text="Loading"
+      size="medium"
+    ></lightning-spinner>
+  </template>
+  <lightning-layout multiple-rows="true">
+    <template if:true={cases}>
+      <template for:each={cases} for:item="caseItem">
+        <lightning-layout-item
+          key={caseItem.Id}
+          size="6"
+          padding="around-small"
+        >
+          <lightning-card title={caseItem.CaseNumber} icon-name="standard:case">
+            <div class="slds-p-around_small">
+              <p><b>Subject: {caseItem.Subject}</b></p>
+              <p>
+                <b>Status: </b>
+                <template if:true={caseItem.IsClosed}>
+                  <lightning-badge
+                    label={caseItem.Status}
+                    class="slds-theme_success"
+                  ></lightning-badge>
+                </template>
+                <template if:false={caseItem.IsClosed}>
+                  <lightning-badge
+                    label={caseItem.Status}
+                    class="slds-theme_inverse"
+                  ></lightning-badge>
+                </template>
+              </p>
+              <p><b>Priority: {caseItem.Priority}</b></p>
+            </div>
+            <lightning-button-group slot="actions" class="button-group">
+              <lightning-button
+                label="Comments"
+                variant="brand"
+                if:false={caseItem.IsClosed}
+                value={caseItem}
+                onclick={handleClick}
+                icon-name="utility:chat"
+                icon-position="right"
+                name="comment"
+              ></lightning-button>
+              <lightning-button
+                label="Escalate"
+                variant="destructive"
+                if:false={caseItem.IsClosed}
+                value={caseItem}
+                onclick={handleClick}
+                icon-name="utility:arrowup"
+                icon-position="right"
+                name="escalate"
+              ></lightning-button>
+              <lightning-button
+                label="Re-open"
+                variant="brand"
+                if:true={caseItem.IsClosed}
+                value={caseItem}
+                onclick={handleClick}
+                icon-name="utility:refresh"
+                icon-position="right"
+                name="reopen"
+              ></lightning-button>
+            </lightning-button-group>
+          </lightning-card>
+        </lightning-layout-item>
+      </template>
+    </template>
+  </lightning-layout>
+</template>

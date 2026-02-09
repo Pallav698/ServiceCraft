@@ -1,5 +1,13 @@
 <template>
-  <lightning-layout multiple-rows="true">
+  <template if:true={isLoading}>
+    <lightning-spinner
+      alternative-text="Loading"
+      size="medium"
+      variant="brand"
+      class="slds-is-fixed"
+    ></lightning-spinner>
+  </template>
+  <lightning-layout multiple-rows="true" if:false={isLoading}>
     <lightning-layout-item size="12" padding="around-small">
       <lightning-button
         class="slds-align_absolute-center"
@@ -10,6 +18,12 @@
         onclick={handleClick}
         name="newcase"
       ></lightning-button>
+    </lightning-layout-item>
+    <lightning-layout-item size="12" padding="around-small" if:true={cases}>
+      <c-sc-display-cases
+        oncaseupdated={handleCaseUpdated}
+        cases={cases}
+      ></c-sc-display-cases>
     </lightning-layout-item>
   </lightning-layout>
 </template>

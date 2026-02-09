@@ -32,7 +32,7 @@ export default class ScCreateCaseModal extends LightningModal {
       .then((result) => {
         if (result === "Success") {
           this.showToast("Success", "Case created successfully", "success").then(
-            () => this.close()
+            () => this.close('success')
           );
         }
         this.isLoading = false;
@@ -46,6 +46,7 @@ export default class ScCreateCaseModal extends LightningModal {
 
   handleLoad() {
     this.isLoading = false;
+    console.log("Form loaded, recordTypeId: ", this.recordTypeId);
   }
 
   async showToast(title, message, variant) {
