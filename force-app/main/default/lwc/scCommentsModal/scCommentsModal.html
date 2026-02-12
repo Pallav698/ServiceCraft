@@ -1,0 +1,76 @@
+<template>
+  <lightning-modal-header label="Add Comments"></lightning-modal-header>
+
+  <lightning-modal-body>
+    <div class="modal-container">
+
+      <template if:true={isBusy}>
+        <div class="spinner-overlay">
+          <lightning-spinner
+            alternative-text="Processing..."
+            size="medium"
+            variant="brand">
+          </lightning-spinner>
+        </div>
+      </template>
+
+      <lightning-layout multiple-rows="true">
+
+        <lightning-layout-item size="8" padding="around-small">
+          <lightning-textarea
+            value={newComment}
+            onchange={handleCommentChange}
+            placeholder="Write your comment...">
+          </lightning-textarea>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="4" padding="around-small">
+          <lightning-button
+            label="Add Comment"
+            variant="brand"
+            onclick={handleAddComment}
+            disabled={isBusy}
+            class="slds-align_absolute-center"
+            icon-name="utility:add"
+            icon-position="right">
+          </lightning-button>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12" padding="around-small">
+
+          <template if:true={hasComments}>
+            <template for:each={comments} for:item="comment">
+              <div key={comment.Id} class="slds-box slds-m-bottom_small">
+                <p>{comment.CommentBody}</p>
+                <p class="slds-text-color_weak slds-text-align_right">
+                  - {comment.CreatedBy.Name} on &nbsp;
+                  <lightning-formatted-date-time
+                    value={comment.CreatedDate}
+                    year="numeric"
+                    month="short"
+                    day="2-digit"
+                    hour="2-digit"
+                    minute="2-digit">
+                  </lightning-formatted-date-time>
+                </p>
+              </div>
+            </template>
+          </template>
+
+          <template if:false={hasComments}>
+            <div class="slds-text-align_center slds-text-color_weak slds-p-around_medium">
+              No comments yet.
+            </div>
+          </template>
+
+        </lightning-layout-item>
+
+      </lightning-layout>
+
+    </div>
+  </lightning-modal-body>
+
+  <lightning-modal-footer>
+    <lightning-button label="Close" onclick={handleClose}></lightning-button>
+  </lightning-modal-footer>
+</template>

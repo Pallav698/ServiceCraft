@@ -26,11 +26,7 @@ public with sharing class SCCaseController {
           Priority,
           CreatedDate,
           IsEscalated,
-          IsClosed,
-          (
-            SELECT Id, CommentBody, CreatedDate, CreatedBy.Name
-            FROM CaseComments
-          )
+          IsClosed
         FROM Case
         WHERE CreatedById = :UserInfo.getUserId()
         WITH USER_MODE
@@ -45,5 +41,15 @@ public with sharing class SCCaseController {
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
+  }
+
+  @AuraEnabled
+  public static List<CaseComment> getCaseComments(Id caseId) {
+    return [
+      SELECT Id, CommentBody, CreatedDate, CreatedBy.Name
+      FROM CaseComment
+      WHERE ParentId = :caseId
+      ORDER BY CreatedDate DESC
+    ];
   }
 }

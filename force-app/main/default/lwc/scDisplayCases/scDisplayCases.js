@@ -1,13 +1,14 @@
-import { LightningElement, api } from 'lwc';
-import { updateRecord } from 'lightning/uiRecordApi';
-import ID_FIELD from '@salesforce/schema/Case.Id';
-import IS_ESCALATED_FIELD from '@salesforce/schema/Case.IsEscalated';
-import STATUS_FIELD from '@salesforce/schema/Case.Status';
+import { LightningElement, api } from "lwc";
+import { updateRecord } from "lightning/uiRecordApi";
+import ID_FIELD from "@salesforce/schema/Case.Id";
+import IS_ESCALATED_FIELD from "@salesforce/schema/Case.IsEscalated";
+import STATUS_FIELD from "@salesforce/schema/Case.Status";
 import LightningAlert from "lightning/alert";
+import scCommentsModal from "c/scCommentsModal";
 export default class ScDisplayCases extends LightningElement {
   @api cases;
 
-  handleClick(event) {
+  async handleClick(event) {
     const action = event.target.name;
     const caseRec = event.target.value;
 
@@ -17,6 +18,19 @@ export default class ScDisplayCases extends LightningElement {
 
     if (action === "reopen") {
       this.handleReopenClick(caseRec);
+    }
+
+    if (action === "comment") {
+      //open comments modal
+      const commentsModalResult = await scCommentsModal.open({
+        size: "medium",
+        description: "Case Comments",
+        caseId: caseRec.Id
+      });
+
+      if (commentsModalResult === "refresh") {
+        this.notifyCaseUpdate(false, true);
+      }
     }
   }
 
