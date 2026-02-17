@@ -1,0 +1,14 @@
+<template>
+  <template if:false={isGuest}>
+    <div class="slds-grid slds-grid_align-end">
+      <lightning-button-menu
+        icon-name="utility:user"
+        icon-size="large">
+        <lightning-menu-item
+          label="Logout"
+          onclick={handleLogout}>
+        </lightning-menu-item>
+      </lightning-button-menu>
+    </div>
+  </template>
+</template>
