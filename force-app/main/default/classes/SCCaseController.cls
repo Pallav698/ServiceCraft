@@ -7,7 +7,33 @@ public with sharing class SCCaseController {
       dmlOpts.assignmentRuleHeader.useDefaultRule = true;
       caseRecord.setOptions(dmlOpts);
       caseRecord.Origin = 'Web';
-      insert as User caseRecord;
+
+      //assign entitlement process to the case
+      Id userId = UserInfo.getUserId();
+      User currentUser = [
+        SELECT Id, Contact.AccountId
+        FROM User
+        WHERE Id = :userId
+        LIMIT 1
+      ];
+      if (currentUser.Contact.AccountId != null) {
+        List<Entitlement> entitlement = [
+          SELECT Id
+          FROM Entitlement
+          WHERE
+            AccountId = :currentUser.Contact.AccountId
+            AND Status = 'Active'
+            AND Type = 'Web Support'
+          ORDER BY CreatedDate DESC
+          LIMIT 1
+        ];
+
+        if (!entitlement.isEmpty() && entitlement[0].Id != null) {
+          caseRecord.EntitlementId = entitlement[0].Id;
+        }
+
+        insert as User caseRecord;
+      }
       return 'Success';
     } catch (Exception e) {
       return e.getMessage();
