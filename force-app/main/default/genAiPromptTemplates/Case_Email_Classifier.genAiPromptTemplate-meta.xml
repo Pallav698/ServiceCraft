@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier
+  >Ie3jmKVjqj8F+ZKGE8NO8g3J6IqWzvZYeO/iO6GNN0g=_1</activeVersionIdentifier>
+    <description
+  >Classifies incoming support emails by determining case priority (High, Medium, Low) and detecting the primary language (English, German, Spanish). Returns structured JSON output for automated case routing and processing.</description>
+    <developerName>Case_Email_Classifier</developerName>
+    <masterLabel>Case_Email_Classifier</masterLabel>
+    <templateVersions>
+        <content>You are a support agent who classifies customer support emails.
+Input:
+emailSubject (string)
+emailBody (string)
+Task:
+Return ONLY a valid JSON object with exactly these fields:
+&quot;priority&quot;: High | Medium | Low
+&quot;language&quot;: English | German | Spanish | null
+Rules:
+Priority:
+High → critical issues (outage, payment failure, security issue, production down, urgent complaint)
+Medium → bugs, delays, functional issues, complaints
+Low → general questions, feature requests, informational
+If unsure, choose the higher priority.
+Language:
+Detect the main language of the email body.
+If English, German, or Spanish → return that value.
+If any other language → return null.
+Output format (strict, no explanation, no extra text):
+{
+&quot;priority&quot;: &quot;High | Medium | Low&quot;,
+&quot;language&quot;: &quot;English | German | Spanish | null&quot;
+}
+Now analyze:
+emailSubject: {!$Input:EmailSubject}
+emailBody: {!$Input:EmailBody}
+</content>
+        <inputs>
+            <apiName>EmailSubject</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>EmailSubject</masterLabel>
+            <referenceName>Input:EmailSubject</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>EmailBody</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>EmailBody</masterLabel>
+            <referenceName>Input:EmailBody</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier
+    >Ie3jmKVjqj8F+ZKGE8NO8g3J6IqWzvZYeO/iO6GNN0g=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a support agent who classifies customer support emails.
+Input:
+emailSubject (string)
+emailBody (string)
+Task:
+Return ONLY a valid JSON object with exactly these fields:
+&quot;priority&quot;: High | Medium | Low
+&quot;language&quot;: English | German | Spanish | null
+Rules:
+Priority:
+High → critical issues (outage, payment failure, security issue, production down, urgent complaint)
+Medium → bugs, delays, functional issues, complaints
+Low → general questions, feature requests, informational
+If unsure, choose the higher priority.
+Language:
+Detect the main language of the email body.
+If English, German, or Spanish → return that value.
+If any other language → return null.
+Output format (strict, no explanation, no extra text):
+{
+&quot;priority&quot;: &quot;High | Medium | Low&quot;,
+&quot;language&quot;: &quot;English | German | Spanish | null&quot;
+}
+Now analyze:
+emailSubject: {!$Input:EmailSubject}
+emailBody: {!$Input:EmailBody}
+</content>
+        <inputs>
+            <apiName>EmailSubject</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>EmailSubject</masterLabel>
+            <referenceName>Input:EmailSubject</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>EmailBody</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>EmailBody</masterLabel>
+            <referenceName>Input:EmailBody</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <status>Draft</status>
+        <versionIdentifier
+    >Ie3jmKVjqj8F+ZKGE8NO8g3J6IqWzvZYeO/iO6GNN0g=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
